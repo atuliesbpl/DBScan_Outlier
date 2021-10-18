@@ -1,0 +1,20 @@
+#data : dataset
+# cols : list of columns
+from sklearn.cluster import DBSCAN
+from sklearn.preprocessing import StandardScaler
+X = StandardScaler().fit_transform(data[cols].values)
+
+db = DBSCAN(eps=3.0, min_samples=10).fit(X)
+labels = db.labels_
+#Visualize
+import matplotlib.pyplot as plt
+plt.figure(figsize=(10,10))
+
+unique_labels = set(labels)
+colors = ['blue', 'red']
+
+for color,label in zip(colors, unique_labels):
+    sample_mask = [True if l == label else False for l in labels]
+    plt.plot(X[:,0][sample_mask], X[:, 1][sample_mask], 'o', color=color)
+plt.xlabel('Standardized Number of Rooms')
+plt.ylabel('Standardized Price')
